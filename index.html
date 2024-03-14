@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+         :root {
+            --primary-color: #007bff;
+            --secondary-color: #00bfff;
+            --accent-color: #fff;
+            --text-color: #333;
+            --font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
+            color: var(--accent-color);
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            padding: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header h1 {
+            text-align: center;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out;
+        }
+        
+        main {
+            padding: 40px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        section {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 40px 0;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-in-out;
+        }
+        
+        section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .parking-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .info-box {
+            flex: 1 1 200px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 10px;
+            height: 100px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+            animation: bounceIn 0.5s ease-in-out;
+        }
+        
+        .info-box:hover {
+            transform: scale(1.05);
+        }
+        
+        .info-box.available {
+            background-color: #6abf69;
+        }
+        
+        .info-box.occupied {
+            background-color: #f55656;
+        }
+        
+        button {
+            display: block;
+            margin: 40px auto 0;
+            padding: 15px 30px;
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        button:hover {
+            background-color: var(--primary-color);
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--accent-color);
+            padding: 20px 0;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <header>
+        <div class="container">
+            <h1 class="animate__animated animate__fadeInDown">Smart Parking System</h1>
+        </div>
+    </header>
+
+    <main>
+        <section id="parkingStatus" class="animate__animated animate__fadeInUp">
+            <div class="container">
+                <h2>Parking Status</h2>
+                <div class="parking-info">
+                    <div class="info-box animate__animated animate__bounceIn" id="parkingBox1"></div>
+                    <div class="info-box animate__animated animate__bounceIn" id="parkingBox2"></div>
+                </div>
+            </div>
+        </section>
+        <button id="refreshButton" class="animate__animated animate__pulse">Click Here</button>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; Smart Parking System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', 'https://particles.js.app/particles.json', function() {
+            console.log('Particles.js loaded.');
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const refreshButton = document.getElementById('refreshButton');
+
+            refreshButton.addEventListener('click', function() {
+                const availableSpaces1 = Math.round(Math.random());
+                const availableSpaces2 = Math.round(Math.random());
+                updateParkingBox(availableSpaces1, 'parkingBox1');
+                updateParkingBox(availableSpaces2, 'parkingBox2');
+            });
+
+            refreshButton.click();
+
+            function updateParkingBox(availableSpaces, boxId) {
+                const box = document.getElementById(boxId);
+                box.classList.remove('available', 'occupied');
+                if (availableSpaces === 1) {
+                    box.classList.add('available');
+                    box.textContent = 'Available';
+                } else {
+                    box.classList.add('occupied');
+                    box.textContent = 'Occupied';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
